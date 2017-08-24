@@ -4,17 +4,23 @@ public class TaskId2037 {
 
     public static String tooShortWords(int k, String str) {
 
-        ArrayList<String> stArray = new ArrayList<String>();
-        String[] s = str.split(",");
-        for (String i : s) {
-            if (i.length() >= k) {
-                stArray.add(i);
-            }
-        }
-        String outString = String.join(",", stArray);
-        System.out.println(outString);
+        if(str.equals(str.toLowerCase()) && str.length() <= 1000 && k >= 0 && k <= 1000) {
 
-        return outString;
+            ArrayList<String> stArray = new ArrayList<String>();
+            String[] s = str.split(",");
+            for (String i : s) {
+                if (i.length() >= k) {
+                    stArray.add(i);
+                }
+            }
+            String outString = String.join(",", stArray);
+//            System.out.println(outString);
+            return outString;
+        }
+        else {
+            return "Incoming data is incorrect";
+        }
+
 
     }
 
