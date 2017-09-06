@@ -6,22 +6,22 @@ public class MainClass {
 
         MyLinkedList <String> theLinkedList = new MyLinkedList <String> ();
 
-        theLinkedList.add("Petunia Dursley");
+        theLinkedList.add("Petunia");
         theLinkedList.add("Harry");
         theLinkedList.add("Ron");
-
-
+        theLinkedList.add("Nevil");
 
         theLinkedList.display();
         System.out.println("__________________________");
 
-        theLinkedList.add("Hermiona", 1);
-
+        theLinkedList.add("Hermiona", 3);
+        theLinkedList.display();
+        System.out.println("__________________________");
+        theLinkedList.remove(4);
         theLinkedList.display();
 
-        System.out.println(theLinkedList.get(1));
-
         System.out.println(theLinkedList.size);
+
 
     }
 

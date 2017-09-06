@@ -43,7 +43,7 @@ public class MyLinkedList <T>{
 
     public T get(int index) {
 
-        if (index < 0 || index + 1 >= this.size) {
+        if (index < 0 || index + 1 > this.size) {
             throw new IndexOutOfBoundsException("Некорректный индекс");
 
         }
@@ -62,39 +62,88 @@ public class MyLinkedList <T>{
     }
 
 
-    public void add(T data, int index){
+    public void remove(int index) {
 
-        Node theNewLink = new Node(data, index);
-
-        Node previousNeighbor = null;
-
-        Node currentNeighbor = firstLink;
-
-        while((currentNeighbor != null) && (index > currentNeighbor.index)){
-
-            previousNeighbor = currentNeighbor;
-
-            currentNeighbor = currentNeighbor.next;
+        if (index < 0 || index + 1 > this.size) {
+            throw new IndexOutOfBoundsException("Некорректный индекс");
 
         }
 
-        if(previousNeighbor == null){
+        Node currentNode = lastLink;
 
-            firstLink = theNewLink;
+        for (int i = this.size - 1; i > index; i--) {
 
+                if (currentNode.previous != null) {
+
+                    currentNode.index--;
+                    currentNode = currentNode.previous;
+                }
+        }
+
+        if (currentNode.previous == null) {
+            firstLink = currentNode.next;
         } else {
-
-            previousNeighbor.next = theNewLink;
-
+            currentNode.previous.next = currentNode.next;
+        }
+        if (currentNode.next == null) {
+            lastLink = currentNode.previous;
+        } else {
+            currentNode.next.previous = currentNode.previous;
         }
 
-        theNewLink.next = currentNeighbor;
-        this.size++;
+        size--;
 
     }
 
 
+    public void add(T data, int index){
 
+        Node theNewLink = new Node(data, index);
+
+        Node futureNode = null;
+
+        Node currentNode = lastLink;
+
+        while((currentNode != null) && (index < currentNode.index)){
+
+            currentNode.index++;
+            currentNode = currentNode.previous;
+
+        }
+
+        if (currentNode.previous == null) {
+            firstLink = theNewLink;
+            currentNode.previous = theNewLink;
+            currentNode.index++;
+            theNewLink.next = currentNode;
+            theNewLink.previous = null;
+
+        } else if ((currentNode.next == null) && (currentNode.index == index)) {
+
+            theNewLink.next = currentNode;
+            theNewLink.previous = currentNode.previous;
+            currentNode.previous.next = theNewLink;
+            currentNode.previous = theNewLink;
+            currentNode.index++;
+
+
+        } else if (currentNode.next == null) {
+
+            theNewLink.previous = currentNode;
+            currentNode.next = theNewLink;
+        }
+
+        else {
+            theNewLink.next = currentNode;
+            theNewLink.previous = currentNode.previous;
+            currentNode.previous.next = theNewLink;
+            currentNode.previous = theNewLink;
+            currentNode.index++;
+        }
+
+        this.size++;
+
+    }
 
     public void display(){
 
