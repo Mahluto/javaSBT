@@ -1,5 +1,8 @@
 
 public interface ICalculator {
 
-    void calculate(double x);
+    Double calculate(double x, String lastCommand, double result);
+//    void calculate(double x);
+//    void rrr(String r);
+
 }

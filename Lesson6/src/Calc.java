@@ -7,19 +7,33 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
-//import java.lang.*;
+import java.lang.reflect.Proxy;
+import java.lang.*;
 
 
-public class Calculator extends JFrame {
-    public Calculator() {
+public class Calc extends JFrame {
+
+    public Calc() {
         setTitle("Calculator");
         CalculatorPanel panel = new CalculatorPanel();
+
+//        InHandler inHandler = new InHandler(panel);
+//        ICalculator panel1 = (ICalculator) Proxy.newProxyInstance(
+//                ClassLoader.getSystemClassLoader(),
+//                new Class[]{ICalculator.class},
+//                inHandler);
+////        panel1.rrr("R");
+//        add((Component) panel1);
+
+
         add(panel);
         pack();
 
     }
 }
-class CalculatorPanel extends JPanel implements ICalculator{
+
+
+class CalculatorPanel extends JPanel{
 
 
     private JButton display;
@@ -27,14 +41,12 @@ class CalculatorPanel extends JPanel implements ICalculator{
     private double result;
     private String lastCommand;
     private boolean start;
-    String resource;
-
+    private ICalculator calc1;
 
 
 
     public CalculatorPanel() {
 
-        resource = System.getProperty("user.dir") + "/res";
 
         setLayout(new BorderLayout());
 
@@ -73,6 +85,15 @@ class CalculatorPanel extends JPanel implements ICalculator{
         addButton("+", command);
 
         add(panel, BorderLayout.CENTER);
+
+        Cl calc = new Cl();
+
+        InHandler inHandler = new InHandler(calc);
+        calc1 = (ICalculator) Proxy.newProxyInstance(
+                ClassLoader.getSystemClassLoader(),
+                new Class[]{ICalculator.class},
+                inHandler);
+
     }
     private void addButton(String label, ActionListener listener) {
         JButton button = new JButton(label);
@@ -93,8 +114,8 @@ class CalculatorPanel extends JPanel implements ICalculator{
     }
     private class CommandAction implements ActionListener
     {
-        public void actionPerformed(ActionEvent event)
-        {
+        public void actionPerformed(ActionEvent event) {
+            Double previousValue;
             String command = event.getActionCommand();
             if(start)
             {
@@ -107,58 +128,28 @@ class CalculatorPanel extends JPanel implements ICalculator{
             }
             else
             {
-                calculate(Double.parseDouble(display.getText()));
+//                if (result == 0.0) {
+//                    result = Double.parseDouble(display.getText());
+//                }
+//                else {
+//                    calculate(Double.parseDouble(display.getText()), lastCommand, result);
+//                    result = 0;
+//                }
+//                calculate(Double.parseDouble(display.getText()));
+                previousValue = result;
+                result = calc1.calculate(Double.parseDouble(display.getText()), lastCommand, previousValue);
+                display.setText("" + result);
                 lastCommand = command;
                 start=true;
             }
         }
     }
+}
 
 
-    public void writeInFile(Double data) {
-        File file = new File(resource + "/DivisionResultFile.txt");
-        if(!file.exists()) {
-            try {
-                file.createNewFile();
-            }
-            catch (IOException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
-        try(FileWriter writer = new FileWriter(file, false)) {
-            writer.write(Double.toString(data));
+class Cl implements ICalculator{
 
-        }
-        catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-
-
-    public void readFromFile() {
-        File file = new File(resource + "/DivisionResultFile.txt");
-        try(FileReader reader = new FileReader(file)) {
-            int c;
-            while((c=reader.read())!= -1){
-
-                System.out.print((char)c);
-            }
-        }
-        catch(IOException ex) {
-
-            System.out.println(ex.getMessage());
-        }
-
-    }
-
-//    public void division (double x) {
-//
-//        result /= x;
-//
-//    }
-
-    @Override
-    public void calculate(double x)
+    public Double calculate(double x, String lastCommand, double result)
     {
         if(lastCommand.equals("+")) {
             result += x;
@@ -176,6 +167,57 @@ class CalculatorPanel extends JPanel implements ICalculator{
         else if(lastCommand.equals("=")) {
             result = x;
         }
-        display.setText("" + result);
+
+        return result;
     }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//public class Calculator implements ICalculator{
+//
+//    public calculate
+//
+//}
