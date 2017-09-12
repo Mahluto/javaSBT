@@ -2,11 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Method;
+
 import java.lang.reflect.Proxy;
 import java.lang.*;
 
@@ -16,15 +12,6 @@ public class Calc extends JFrame {
     public Calc() {
         setTitle("Calculator");
         CalculatorPanel panel = new CalculatorPanel();
-
-//        InHandler inHandler = new InHandler(panel);
-//        ICalculator panel1 = (ICalculator) Proxy.newProxyInstance(
-//                ClassLoader.getSystemClassLoader(),
-//                new Class[]{ICalculator.class},
-//                inHandler);
-////        panel1.rrr("R");
-//        add((Component) panel1);
-
 
         add(panel);
         pack();
@@ -128,14 +115,7 @@ class CalculatorPanel extends JPanel{
             }
             else
             {
-//                if (result == 0.0) {
-//                    result = Double.parseDouble(display.getText());
-//                }
-//                else {
-//                    calculate(Double.parseDouble(display.getText()), lastCommand, result);
-//                    result = 0;
-//                }
-//                calculate(Double.parseDouble(display.getText()));
+
                 previousValue = result;
                 result = calc1.calculate(Double.parseDouble(display.getText()), lastCommand, previousValue);
                 display.setText("" + result);
@@ -173,51 +153,3 @@ class Cl implements ICalculator{
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//public class Calculator implements ICalculator{
-//
-//    public calculate
-//
-//}

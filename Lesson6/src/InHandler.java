@@ -12,8 +12,8 @@ public class InHandler implements InvocationHandler {
 
     private Object obj;
     private String resource;
-    private Map<String, Double> cache;
     private File file;
+    private Map<String, Double> cache = new HashMap<String, Double>();
 
 
 
@@ -21,7 +21,6 @@ public class InHandler implements InvocationHandler {
         file = new File(resource + "/CalculationResultFile.txt");
         try(FileWriter writer = new FileWriter(file, false)) {
             writer.write(data);
-//            writer.flush();
         }
         catch (IOException ex) {
             System.out.println(ex.getMessage());
@@ -54,7 +53,6 @@ public class InHandler implements InvocationHandler {
 
         String[] stArr;
         this.resource = System.getProperty("user.dir") + "/res";
-        cache = new HashMap<String, Double>();
         if (cache.isEmpty()) {
             File file = new File(resource + "/CalculationResultFile.txt");
             if(file.exists()) {
@@ -93,9 +91,9 @@ public class InHandler implements InvocationHandler {
         } else {
             Object res = method.invoke(obj, args);
             String toWrite = argsStr + "=" + res.toString();
+            cache.put(argsStr, new Double(res.toString()));
 
             this.writeInFile(toWrite);
-
 
             return res;
         }
