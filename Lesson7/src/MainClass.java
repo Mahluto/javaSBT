@@ -1,4 +1,5 @@
 import ru.sbt.PluginManager;
+import ru.sbt.plugin.Plugin;
 
 
 public class MainClass {
@@ -6,6 +7,6 @@ public class MainClass {
         String pluginsDir = System.getProperty("user.dir") + "/pluginRootDirectory/pluginName/";
         System.out.println(pluginsDir);
         PluginManager man = new PluginManager(pluginsDir);
-        man.load("Bean.class", "Bean", "3");
+        Plugin t = man.load("Bean.class", "Bean", "3");
     }
 }
