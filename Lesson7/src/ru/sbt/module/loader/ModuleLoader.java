@@ -48,7 +48,7 @@ public class ModuleLoader extends ClassLoader {
         while (offset < bytes.length
                 && (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) {
 
-//            numRead -= this.key;
+            numRead -= this.key;
             offset += numRead;
         }
 
